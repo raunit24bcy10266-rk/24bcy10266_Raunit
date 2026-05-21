@@ -1,0 +1,165 @@
+I want to calculate for hr department , what is the total salary I’m spending
+
+CREATE TABLE departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(50)
+);
+
+
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    salary INT,
+    dept_id INT,
+    FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
+);
+
+
+INSERT INTO departments VALUES
+(1, 'HR'),
+(2, 'IT');
+
+
+INSERT INTO employees VALUES
+(101, 'John', 30000, 1),
+(102, 'Alice', 40000, 1),
+(103, 'Mike', 50000, 2);
+
+
+SELECT SUM(salary) AS total_hr_salary
+FROM employees
+WHERE dept_id = 1;
+
+_____________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Order by
+CREATE TABLE employees (
+    emp_id INT,
+    emp_name VARCHAR(50),
+    salary INT,
+    department VARCHAR(50)
+);
+
+INSERT INTO employees VALUES
+(1, 'John', 30000, 'HR'),
+(2, 'Alice', 50000, 'IT'),
+(3, 'Mike', 40000, 'HR'),
+(4, 'Sara', 60000, 'IT');
+SELECT * 
+FROM employees
+ORDER BY salary ASC;
+SELECT department, SUM(salary) AS total_salary
+FROM employees
+GROUP BY department;
+
+SELECT department, SUM(salary) AS total_salary
+FROM employees
+GROUP BY department
+ORDER BY total_salary DESC;
+_________________________________________________________________________________________________________________________________________________________________________________________________________________
+Limit offset
+CREATE TABLE employees (
+    emp_id INT,
+    emp_name VARCHAR(50),
+    salary INT
+);
+
+INSERT INTO employees VALUES
+(1, 'John', 30000),
+(2, 'Alice', 50000),
+(3, 'Mike', 40000),
+(4, 'Sara', 60000),
+(5, 'David', 45000);
+SELECT *
+FROM employees
+LIMIT 3;
+_________________________________________________________________________________________________________________________________________________________________________________________________________________
+Having clause
+CREATE TABLE employees (
+    emp_id INT,
+    emp_name VARCHAR(50),
+    department VARCHAR(50),
+    salary INT
+);
+
+INSERT INTO employees VALUES
+(1, 'John', 'HR', 30000),
+(2, 'Alice', 'IT', 50000),
+(3, 'Mike', 'HR', 40000),
+(4, 'Sara', 'IT', 60000),
+(5, 'David', 'Sales', 20000);
+SELECT department, SUM(salary) AS total_salary
+FROM employees
+GROUP BY department
+HAVING SUM(salary) > 70000;
+________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+To find the **2 departments with the least total salary**, use:
+
+
+SELECT department, SUM(salary)
+FROM worker
+GROUP BY department
+ORDER BY SUM(salary) ASC
+LIMIT 2;
+
+
+
+________________________________________________________________________________________________________________________________________________________________________________________________________________
+in admin department who is getting the second largest salary
+
+CREATE TABLE employees (
+    emp_id INT,
+    emp_name VARCHAR(50),
+    department VARCHAR(50),
+    salary INT
+);
+
+INSERT INTO employees VALUES
+(1, 'John', 'Admin', 50000),
+(2, 'Alice', 'Admin', 70000),
+(3, 'Mike', 'Admin', 60000),
+(4, 'Sara', 'HR', 40000);
+
+SELECT emp_name, salary
+FROM employees
+
+WHERE department = 'Admin'
+ORDER BY salary DESC
+LIMIT 1 OFFSET 1;
+
+________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+in each department i want to print the second largest salary person
+
+CREATE TABLE employees (
+    emp_id INT,
+    emp_name VARCHAR(50),
+    department VARCHAR(50),
+    salary INT
+);
+
+INSERT INTO employees VALUES
+(1, 'John', 'Admin', 50000),
+(2, 'Alice', 'Admin', 70000),
+(3, 'Mike', 'Admin', 60000),
+(4, 'Sara', 'HR', 40000),
+(5, 'David', 'HR', 55000),
+(6, 'Emma', 'HR', 45000),
+(7, 'Tom', 'IT', 80000),
+(8, 'Jerry', 'IT', 75000);
+
+SELECT department, emp_name, salary
+FROM (
+    SELECT 
+        department,
+        emp_name,
+        salary,
+        DENSE_RANK() OVER (
+            PARTITION BY department
+            ORDER BY salary DESC
+        ) AS rnk
+    FROM employees
+) t
+WHERE rnk = 2;
