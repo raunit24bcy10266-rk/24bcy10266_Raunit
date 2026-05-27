@@ -1,0 +1,221 @@
+db.products.insertMany([
+    { "_id" : 1, "name" : "xPhone", "price" : 799, "releaseDate": ISODate("2011-05-14"), "spec" : { "ram" : 4, "screen" : 6.5, "cpu" : 2.66 },"color":["white","black"],"storage":[64,128,256]},
+    { "_id" : 2, "name" : "xTablet", "price" : 899, "releaseDate": ISODate("2011-09-01") , "spec" : { "ram" : 16, "screen" : 9.5, "cpu" : 3.66 },"color":["white","black","purple"],"storage":[128,256,512]},
+    { "_id" : 3, "name" : "SmartTablet", "price" : 899, "releaseDate": ISODate("2015-01-14"), "spec" : { "ram" : 12, "screen" : 9.7, "cpu" : 3.66 },"color":["blue"],"storage":[16,64,128]},
+    { "_id" : 4, "name" : "SmartPad", "price" : 699, "releaseDate": ISODate("2020-05-14"),"spec" : { "ram" : 8, "screen" : 9.7, "cpu" : 1.66 },"color":["white","orange","gold","gray"],"storage":[128,256,1024]},
+    { "_id" : 5, "name" : "SmartPhone", "price" : 599,"releaseDate": ISODate("2022-09-14"), "spec" : { "ram" : 4, "screen" : 5.7, "cpu" : 1.66 },"color":["white","orange","gold","gray"],"storage":[128,256]}
+ ])
+
+Introduction to the MongoDB $eq operator
+
+1) Using $eq operator to check if a field equals a specified value
+db.products.find({
+    price: {
+        $eq: 899
+    }
+}, {
+    name: 1,
+    price: 1
+})
+Code language: CSS (css)
+
+2) Using the $eq operator to check if a field in an embedded document equals a value
+
+db.products.find({
+    "spec.ram": {
+        $eq: 4
+    }
+}, {
+    name: 1,
+    "spec.ram": 1
+})
+
+3) Using $eq operator to check if an array element equals a value
+db.products.find({
+    color: {
+        $eq: "black"
+    }
+}, {
+    name: 1,
+    color: 1
+})
+
+4) Using $eq operator to check if a field equals a date
+db.products.find({
+    releaseDate: {
+        $eq: new ISODate("2020-05-14")
+    }
+}, {
+    name: 1,
+    releaseDate: 1
+})
+
+1) Using the $in opeator to match values
+db.products.find({
+    price: {
+        $in: [699, 799]
+    }
+}, {
+    name: 1,
+    price: 1
+})
+2) Using the $in operator to match values in an array
+
+db.products.find({
+    color: {
+        $in: ["black", "white"]
+    }
+}, {
+    name: 1,
+    color: 1
+})
+
+3) Using the $in operator with regular expressions
+
+db.products.find({
+    color: {
+        $in: [/^g+/, /^w+/]
+    }
+}, {
+    name: 1,
+    color: 1
+})
+
+db.products.find({
+    price: {
+        $in: [699, 799]
+    }
+}, {
+    name: 1,
+    price: 1
+})
+
+db.products.find({
+    color: {
+        $in: ["black", "white"]
+    }
+}, {
+    name: 1,
+    color: 1
+})
+
+has at least one element that matches either /^g+/ or /^w+/ regular expression:
+db.products.find({
+    color: {
+        $in: [/^g+/, /^w+/]
+    }
+}, {
+    name: 1,
+    color: 1
+})
+Code language: CSS (css)
+
+db.products.find({
+    color: {
+        $in: [/^g+/, /^w+/]
+    }
+}, {
+    name: 1,
+    color: 1
+})
+Code language: CSS (css)
+
+Introduction to the MongoDB $and operator
+
+1) Using MongoDB $and operator example
+db.products.find({
+    $and: [{
+        price: 899
+    }, {
+        color: {
+            $in: ["white", "black"]
+        }
+    }]
+}, {
+    name: 1,
+    price: 1,
+    color: 1
+})
+2) Using MongoDB $and operator with the same field
+db.products.find({
+    $and: [{
+        price: 699
+    }, {
+        price: {
+            $exists: true
+        }
+    }]
+}, {
+    name: 1,
+    price: 1,
+    color: 1
+})
+Implicit and operator
+
+db.products.find({
+    price: {
+        $eq: 699,
+        $exists: true
+    }
+}, {
+    name: 1,
+    price: 1,
+    color: 1
+})
+
+
+Introduction to the MongoDB $or operator
+1) Using MongoDB $or operator example
+
+db.products.find({
+    $or: [{
+        price: 799
+    }, {
+        price: 899
+    }]
+}, {
+    name: 1,
+    price: 1
+})
+2) Using MongoDB $or operator to select documents where the value of a field is in a range
+db.products.find({
+    $or: [
+        { price: {$lt: 699} },
+        { price: {$gt: 799} }
+    ]
+}, {
+    name: 1,
+    price: 1
+})
+Introduction to the MongoDB $not operator
+1) Using MongoDB $not operator to select documents
+db.products.find({
+    price: {
+        $not: {
+            $gt: 699
+        }
+    }
+}, {
+    name: 1,
+    price: 1
+})
+2) Using MongoDB $not operator to select documents based on expressions
+db.products.find({
+    name: {
+        $not: /^Smart+/
+    }
+}, {
+    name: 1
+})
+
+Introduction to the MongoDB $nor operator
+db.products.find({
+    $nor :[
+        { price: 899},
+        { color: "gold"}
+    ]
+}, {
+    name: 1,
+    price: 1, 
+    color: 1
+})
