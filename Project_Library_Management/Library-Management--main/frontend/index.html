@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>📚 Library</h2>
+
+```
+<button onclick="showSection('dashboard')">Dashboard</button>
+<button onclick="showSection('department')">Departments</button>
+<button onclick="showSection('member')">Members</button>
+<button onclick="showSection('book')">Books</button>
+<button onclick="showSection('librarian')">Librarians</button>
+<button onclick="showSection('issue')">Issue Book</button>
+```
+
+</div>
+
+<div class="main-content">
+
+```
+<div id="dashboard" class="section active">
+    <h1>Library Dashboard</h1>
+
+    <div class="stats">
+        <div class="card">
+            <h3>Total Departments</h3>
+            <p id="deptCount">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Members</h3>
+            <p id="memberCount">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Books</h3>
+            <p id="bookCount">0</p>
+        </div>
+    </div>
+</div>
+
+<div id="department" class="section">
+    <h2>Add Department</h2>
+
+    <input type="text" id="deptId" placeholder="Department ID">
+    <input type="text" id="deptName" placeholder="Department Name">
+
+    <button onclick="addDepartment()">Add Department</button>
+</div>
+
+<div id="member" class="section">
+    <h2>Add Member</h2>
+
+    <input type="text" id="memberId" placeholder="Member ID">
+    <input type="text" id="memberName" placeholder="Name">
+    <input type="email" id="memberEmail" placeholder="Email">
+    <input type="text" id="memberPhone" placeholder="Phone">
+    <input type="text" id="memberDept" placeholder="Department ID">
+
+    <button onclick="addMember()">Add Member</button>
+</div>
+
+<div id="book" class="section">
+    <h2>Add Book</h2>
+
+    <input type="text" id="bookId" placeholder="Book ID">
+    <input type="text" id="title" placeholder="Title">
+    <input type="text" id="author" placeholder="Author">
+    <input type="text" id="isbn" placeholder="ISBN">
+    <input type="number" id="copies" placeholder="Copies">
+    <input type="text" id="bookDept" placeholder="Department ID">
+
+    <button onclick="addBook()">Add Book</button>
+</div>
+
+<div id="librarian" class="section">
+    <h2>Add Librarian</h2>
+
+    <input type="text" id="libId" placeholder="Librarian ID">
+    <input type="text" id="libName" placeholder="Name">
+    <input type="email" id="libEmail" placeholder="Email">
+    <input type="text" id="libPhone" placeholder="Phone">
+    <input type="text" id="libDept" placeholder="Department ID">
+
+    <button onclick="addLibrarian()">Add Librarian</button>
+</div>
+
+<div id="issue" class="section">
+    <h2>Issue Book</h2>
+
+    <input type="text" id="issueId" placeholder="Issue ID">
+    <input type="text" id="issueMember" placeholder="Member ID">
+    <input type="text" id="issueBook" placeholder="Book ID">
+    <input type="date" id="issueDate">
+
+    <button onclick="issueBook()">Issue Book</button>
+</div>
+```
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
